@@ -5,15 +5,22 @@ better or more secure way to accomplish something. The more feedback, the better
 
 ## AWS Windows
 
-- `aws-winrm-instance` - Shows how to use `user_data` to configure WinRM, open firewall, and set the Administrator 
+### aws-winrm-instance
+
+Shows how to use `user_data` to configure WinRM, open firewall, and set the Administrator 
 password for AWS Window 2012R2 Base image.
-- `aws-asg-provision` - Shows how to use `user_data` to provision an ASG server instance with Chef.  
+
+### aws-asg-provision
+
+Shows how to use `user_data` to provision an ASG server instance with Chef. 
+ 
 The user_data script does the following:
--- downloads and install chef-client
--- downloads s3://mybucket/chef-validator.pem and s3://mybucket/encrypted_data_bag_secret
--- applies provisioning tag to instance
--- runs chef-client with provided runlist and environment && if successful, applies remaining tags (Chef 
+  - downloads and install chef-client
+  - downloads s3://mybucket/chef-validator.pem and s3://mybucket/encrypted_data_bag_secret
+  - applies provisioning tag to instance
+  - runs chef-client with provided runlist and environment && if successful, applies remaining tags (Chef 
    node/client name will be "name-instance_id")
--- removes provisioning tag
+  - removes provisioning tag
+  
 Note that IAM must be setup to allow access to Chef server.  This example also expects Chef's chef-validator and 
 encrypted_data_bag_secret to be downloadable from an S3 bucket.  Be sure to change s3 paths accordingly. 
