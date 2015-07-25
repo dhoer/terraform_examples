@@ -43,7 +43,7 @@ ruby -e "require 'aws-sdk'; require 'open-uri'; region = open('http://169.254.16
 echo( >> C:/chef_bootstrap.log
 
 echo Run chef-client, add remaining tags if successful >> C:/chef_bootstrap.log
-call chef-client --node-name %NODE_NAME% --environment ${environment} --server https://merle.pearsondev.com --runlist ${run_list} >> C:/chef_bootstrap.log 2>&1 && ruby -e 'require "aws-sdk"; require "open-uri"; region = open("http://169.254.169.254/latest/meta-data/placement/availability-zone").read.chop; id = open("http://169.254.169.254/latest/meta-data/instance-id").read; instance = AWS.regions[region].ec2.instances[id]; instance.tags.set({${tags}})' >> C:/chef_bootstrap.log 2>&1
+call chef-client --node-name %NODE_NAME% --environment ${environment} --server https://merle.pearsondev.com --runlist ${run_list} >> C:/chef_bootstrap.log 2>&1 && ruby -e 'require "aws-sdk"; require "open-uri"; region = open("http://169.254.169.254/latest/meta-data/placement/availability-zone").read.chop; id = open("http://169.254.169.254/latest/meta-data/instance-id").read; instance = AWS.regions[region].ec2.instances[id]; instance.tags.set({${tags}, Name:"#{ENV["NODE_NAME"]}"})' >> C:/chef_bootstrap.log 2>&1
 echo( >> C:/chef_bootstrap.log
 
 echo Remove provisioning tag >> C:/chef_bootstrap.log
