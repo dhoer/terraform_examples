@@ -5,7 +5,6 @@ resource "template_file" "asg_user_data" {
     name = "example"
     environment = "default"
     run_list = "nginx"
-    tags = "hello:world, foo:bar"
   }
 }
 
