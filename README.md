@@ -1,6 +1,6 @@
 # Terraform Examples
 
-Terraform has added examples here: https://github.com/hashicorp/terraform/blob/master/examples.
+Terraform has since added examples here: https://github.com/hashicorp/terraform/blob/master/examples.
 
 ## AWS Windows
 
