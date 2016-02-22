@@ -1,7 +1,6 @@
 # Terraform Examples
 
-The missing Terraform examples.  Feel free create an issue or pull request if want to add an example or have a 
-better or more secure way to accomplish something. The more feedback, the better for me and everyone else. ;-)
+Terraform has added examples here: https://github.com/hashicorp/terraform/blob/master/examples.
 
 ## AWS Windows
 
