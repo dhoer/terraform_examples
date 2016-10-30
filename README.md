@@ -21,5 +21,5 @@ The user_data script does the following:
   (Note that Name tag and Chef node/client names will be name appended with the instance id e.g. example-i-a1b2c3d4)
 - removes provisioning tag
   
-Note that IAM must be setup to allow access to Chef server.  This example also expects Chef's chef-validator and 
+Note that IAM must be setup to allow access to Chef server and s3.  This example also expects Chef's chef-validator and 
 encrypted_data_bag_secret to be downloadable from an S3 bucket.  Be sure to change s3 paths accordingly. 
