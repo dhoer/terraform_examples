@@ -10,10 +10,7 @@
 ::
 
 echo Download and install chef-client >> C:/chef_bootstrap.log
-set REMOTE_SOURCE_MSI_URL=https://www.opscode.com/chef/install.msi >> C:/chef_bootstrap.log 2>&1
-set LOCAL_DESTINATION_MSI_PATH=%TEMP%\chef-client-latest.msi >> C:/chef_bootstrap.log 2>&1
-powershell.exe $webClient = new-object System.Net.WebClient; $webClient.DownloadFile('%REMOTE_SOURCE_MSI_URL%', '%LOCAL_DESTINATION_MSI_PATH%'); >> C:/chef_bootstrap.log 2>&1
-msiexec /qn /i "%LOCAL_DESTINATION_MSI_PATH%" >> C:/chef_bootstrap.log 2>&1
+msiexec /qn /i https://www.opscode.com/chef/install.msi >> C:/chef_bootstrap.log 2>&1
 echo( >> C:/chef_bootstrap.log
 
 echo Add the embedded ruby installed by Chef to the Path >> C:/chef_bootstrap.log
