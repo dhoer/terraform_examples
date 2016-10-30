@@ -10,6 +10,7 @@
 ::
 
 echo Download and install chef-client >> C:/chef_bootstrap.log
+# TODO: Change url to pull from s3
 msiexec /qn /i https://www.opscode.com/chef/install.msi >> C:/chef_bootstrap.log 2>&1
 echo( >> C:/chef_bootstrap.log
 
