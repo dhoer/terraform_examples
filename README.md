@@ -4,8 +4,6 @@ Terraform has since added examples here: https://github.com/hashicorp/terraform/
 
 ## AWS Windows
 
-Note that you will need to update the Windows Server 2012 R2 Base ami in `variables.tf` before using.
-
 ### aws-winrm-instance
 
 Shows how to use `user_data` to configure WinRM, open firewall, and set the Administrator 
