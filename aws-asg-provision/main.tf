@@ -15,6 +15,7 @@ data "template_file" "asg_user_data" {
 # Lookup the correct AMI based on the region specified
 data "aws_ami" "amazon_windows_2012R2" {
   most_recent = true
+  owners      = ["amazon"]
 
   filter {
     name   = "name"

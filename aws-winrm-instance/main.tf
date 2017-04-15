@@ -29,6 +29,7 @@ resource "aws_security_group" "default" {
 # Lookup the correct AMI based on the region specified
 data "aws_ami" "amazon_windows_2012R2" {
   most_recent = true
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
