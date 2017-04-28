@@ -3,8 +3,7 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-# Our default security group to access
-# the instances over SSH and HTTP
+# Default security group to access the instances via WinRM over HTTP and HTTPS
 resource "aws_security_group" "default" {
   name        = "terraform_example"
   description = "Used in the terraform"
@@ -12,7 +11,7 @@ resource "aws_security_group" "default" {
   # WinRM access from anywhere
   ingress {
     from_port   = 5985
-    to_port     = 5985
+    to_port     = 5986
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -37,7 +36,7 @@ data "aws_ami" "amazon_windows_2012R2" {
   }
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "winrm" {
   # The connection block tells our provisioner how to
   # communicate with the resource (instance)
   connection {
@@ -60,13 +59,14 @@ resource "aws_instance" "web" {
   security_groups = ["${aws_security_group.default.name}"]
 
   user_data = <<EOF
-<script>
-  winrm quickconfig -q & winrm set winrm/config/winrs @{MaxMemoryPerShellMB="300"} & winrm set winrm/config @{MaxTimeoutms="1800000"} & winrm set winrm/config/service @{AllowUnencrypted="true"} & winrm set winrm/config/service/auth @{Basic="true"}
-</script>
 <powershell>
-  netsh advfirewall firewall add rule name="WinRM in" protocol=TCP dir=in profile=any localport=5985 remoteip=any localip=any action=allow
-  $admin = [adsi]("WinNT://./administrator, user")
-  $admin.psbase.invoke("SetPassword", "${var.admin_password}")
+# Configure a Windows host for remote management (this works for both Ansible and Chef)
+# You will want to copy this script to a location you own (e.g. s3 bucket) or paste it here
+Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+
+# Set Administrator password
+$admin = [adsi]("WinNT://./administrator, user")
+$admin.psbase.invoke("SetPassword", "${var.admin_password}")
 </powershell>
 EOF
 }
