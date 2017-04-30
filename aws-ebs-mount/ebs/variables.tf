@@ -7,7 +7,7 @@ variable "ebs_name" {
 }
 
 variable "ebs_size" {
-  default = 5
+  default = 1
 }
 
 variable "availability_zone" {
