@@ -11,7 +11,7 @@ password for AWS Window 2012R2 Base image.
 
 ### aws-ebs-mount
 
-Shows how to use `user_data` to mount ebs volume and set the Administrator 
+Shows how to use `user_data` to mount ebs volume (D:) and set the Administrator 
 password for AWS Window 2012R2 Base image.
 
 ### aws-asg-provision
