@@ -63,8 +63,8 @@ resource "aws_instance" "ebs_example" {
   user_data = <<EOF
 <powershell>
 # Mount ebs volume disk 1 with read-write access (should mount as D: drive)
-set-disk 1 -isOffline $false
-set-disk 1 -isReadOnly $false
+set-disk 1 -isOffline 0
+set-disk 1 -isReadOnly 0
 
 # Set Administrator password
 $admin = [adsi]("WinNT://./administrator, user")
