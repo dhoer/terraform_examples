@@ -59,14 +59,14 @@ resource "aws_instance" "winrm" {
   security_groups = ["${aws_security_group.default.name}"]
 
   user_data = <<EOF
+<script>
+  winrm quickconfig -q & winrm set winrm/config @{MaxTimeoutms="1800000"} & winrm set winrm/config/service @{AllowUnencrypted="true"} & winrm set winrm/config/service/auth @{Basic="true"}
+</script>
 <powershell>
-# Configure a Windows host for remote management (this works for both Ansible and Chef)
-# You will want to copy this script to a location you own (e.g. s3 bucket) or paste it here
-Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
-
-# Set Administrator password
-$admin = [adsi]("WinNT://./administrator, user")
-$admin.psbase.invoke("SetPassword", "${var.admin_password}")
+  netsh advfirewall firewall add rule name="WinRM in" protocol=TCP dir=in profile=any localport=5985 remoteip=any localip=any action=allow
+  # Set Administrator password
+  $admin = [adsi]("WinNT://./administrator, user")
+  $admin.psbase.invoke("SetPassword", "${var.admin_password}")
 </powershell>
 EOF
 }
