@@ -43,6 +43,8 @@ resource "aws_instance" "winrm" {
     type     = "winrm"
     user     = "Administrator"
     password = "${var.admin_password}"
+    # set from default of 5m to 10m to avoid winrm timeout
+    timeout  = "10m"
   }
 
   instance_type = "t2.micro"
