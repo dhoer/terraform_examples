@@ -9,6 +9,10 @@ Terraform has since added examples here: https://github.com/hashicorp/terraform/
 Shows how to use `user_data` to configure WinRM, open firewall, and set the Administrator 
 password for AWS Window 2012R2 Base image.
 
+### aws-ebs-mount		
+ 		
+Shows how to use `user_data` to bring a persistent ebs volume (as D: drive) online.
+
 ### aws-asg-provision
 
 Shows how to use `user_data` to provision an ASG server instance with Chef. 
