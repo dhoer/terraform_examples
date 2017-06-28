@@ -71,7 +71,7 @@ resource "aws_instance" "ebs_example" {
   user_data = <<EOF
 <powershell>
 # Bring ebs volume online with read-write access
-Get-Disk | Where-Object IsOffline –Eq $True | Set-Disk –IsOffline $False
+Get-Disk | Where-Object IsOffline -Eq $True | Set-Disk -IsOffline $False
 Get-Disk | Where-Object isReadOnly -Eq $True | Set-Disk -IsReadOnly $False
 
 # Set Administrator password
