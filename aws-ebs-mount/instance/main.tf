@@ -60,13 +60,20 @@ resource "aws_instance" "ebs_example" {
   #
   key_name = "${var.key_name}"
 
+  # EC2Config service does not take actions on disks that have already been
+  # initialized. It only provisions newer 'raw' disks, formats them and assigns
+  # them with driver letters. So Powershell's Get-Disk function is used to
+  # bring ebs volume online with read-write access after it has already been
+  # initialized. It should assign it with the letter D: by default.
+  #
+  # See the following for more info about managing storage with windows:
+  # https://blogs.msdn.microsoft.com/san/2012/07/03/managing-storage-with-windows-powershell-on-windows-server-2012/
   user_data = <<EOF
 <powershell>
-# EC2Config service does not take actions on disks that have already been initialized.
-# It only provisions newer 'raw' disks, formats them and assigns them with driver letters.
-# So the following is required to bring ebs volume online with read-write access.
-# This should assign it with the letter D: by default.
+# Bring ebs volume online with read-write access
 Get-Disk | Where-Object IsOffline –Eq $True | Set-Disk –IsOffline $False
+Get-Disk | Where-Object isReadOnly -Eq $True | Set-Disk -IsReadOnly $False
+
 # Set Administrator password
 $admin = [adsi]("WinNT://./administrator, user")
 $admin.psbase.invoke("SetPassword", "${var.admin_password}")
