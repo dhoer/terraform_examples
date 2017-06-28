@@ -1,6 +1,7 @@
 # Terraform Examples
 
-Terraform has since added examples here: https://github.com/hashicorp/terraform/blob/master/examples.
+These are the missing Terraform Windows examples. 
+Other Terraform examples can be found here: https://github.com/hashicorp/terraform/blob/master/examples.
 
 ## AWS Windows
 
