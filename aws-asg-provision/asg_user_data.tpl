@@ -40,8 +40,9 @@ set /p NODE_NAME= < C:/chef/node_name.txt >> C:/chef_bootstrap.log 2>&1
 echo:%NODE_NAME% >> C:/chef_bootstrap.log
 echo( >> C:/chef_bootstrap.log
 
+# TODO: Change chef server url
 echo Run chef-client, add remaining tags if successful >> C:/chef_bootstrap.log
-call chef-client --node-name %NODE_NAME% --environment ${environment} --server https://merle.pearsondev.com --runlist ${run_list} >> C:/chef_bootstrap.log 2>&1
+call chef-client --node-name %NODE_NAME% --environment ${environment} --server https://chef.example.com --runlist ${run_list} >> C:/chef_bootstrap.log 2>&1
 
 if %ERRORLEVEL% == 0 (
   echo( >> C:/chef_bootstrap.log
