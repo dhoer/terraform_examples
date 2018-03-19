@@ -28,3 +28,16 @@ The user_data script does the following:
   
 Note that IAM must be setup to allow access to Chef server and s3.  This example also expects Chef's chef-validator and 
 encrypted_data_bag_secret to be downloadable from an S3 bucket.  Be sure to change s3 paths accordingly. 
+
+### choco-selenium-grid
+
+Shows how to use chocolatey to install a selenium-grid on windows server.
+
+#### hub
+
+Shows how to use `user_data` and chocolatey to install and configure a selenium hub.
+
+
+#### nodes
+
+Shows how to use `user_data` and chocolatey to install and configure a selenium nodes at a higher screen resolution than 1024x768 default.

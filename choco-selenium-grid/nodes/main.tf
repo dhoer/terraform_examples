@@ -6,30 +6,29 @@ data "template_file" "asg_user_data" {
   template = "asg_user_data.tpl"
 
   vars {
-    name        = "example"
-    environment = "default"
-    run_list    = "nginx"
+    hub_url = "${var.hub_url}"
+    password = "${var.admin_password}"
   }
 }
 
 # Lookup the correct AMI based on the region specified
-data "aws_ami" "amazon_windows_2012R2" {
+data "aws_ami" "amazon_windows_2016" {
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["Windows_Server-2012-R2_RTM-English-64Bit-Base-*"]
+    values = ["Windows_Server-2016-English-Full-Base-*"]
   }
 }
 
 resource "aws_launch_configuration" "example" {
   name          = "example"
-  image_id      = "${data.aws_ami.amazon_windows_2012R2.image_id}"
+  image_id      = "${data.aws_ami.amazon_windows_2016.image_id}"
   instance_type = "m1.small"
 
-  key_name             = "panext"
-  iam_instance_profile = "chef-provisioning-role"
+  key_name             = "mykey"
+  iam_instance_profile = "choco-provisioning-role"
 
   root_block_device {
     volume_size = "50"

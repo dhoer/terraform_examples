@@ -26,13 +26,13 @@ resource "aws_security_group" "default" {
 }
 
 # Lookup the correct AMI based on the region specified
-data "aws_ami" "amazon_windows_2012R2" {
+data "aws_ami" "amazon_windows_2016" {
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["Windows_Server-2012-R2_RTM-English-64Bit-Base-*"]
+    values = ["Windows_Server-2016-English-Full-Base-*"]
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_instance" "winrm" {
   }
 
   instance_type = "t2.micro"
-  ami           = "${data.aws_ami.amazon_windows_2012R2.image_id}"
+  ami           = "${data.aws_ami.amazon_windows_2016.image_id}"
 
   # The name of our SSH keypair you've created and downloaded
   # from the AWS console.
@@ -65,13 +65,20 @@ resource "aws_instance" "winrm" {
   # recommend bootstraping Chef via user_data.  See asg_user_data.tpl for an example on how to do that.
   user_data = <<EOF
 <script>
+  @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
   winrm quickconfig -q & winrm set winrm/config @{MaxTimeoutms="1800000"} & winrm set winrm/config/service @{AllowUnencrypted="true"} & winrm set winrm/config/service/auth @{Basic="true"}
 </script>
 <powershell>
   netsh advfirewall firewall add rule name="WinRM in" protocol=TCP dir=in profile=any localport=5985 remoteip=any localip=any action=allow
+
   # Set Administrator password
   $admin = [adsi]("WinNT://./administrator, user")
   $admin.psbase.invoke("SetPassword", "${var.admin_password}")
+
+  # Install Selenium Hub as Windows Service
+  choco install -y nssm --pre
+  choco install -y jdk8
+  choco install -y selenium --params "'/role:hub /service /autostart'"
 </powershell>
 EOF
 }
